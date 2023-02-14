@@ -83,7 +83,7 @@ function pc_meta_box_callback( $post ) : void {
  * @param int $post_id The post ID.
  * @return void.
  */
-function pc_metabox_save( $post_id ) {
+function pc_metabox_save( $post_id ) : void {
 	if ( ! isset( $_POST['pc-select'] ) ) {
 		return;
 	}
@@ -99,5 +99,21 @@ function pc_metabox_save( $post_id ) {
 	if ( isset( $_POST['pc-select'] ) ) {
 		update_post_meta( $post_id, 'primary_category', $primary_category );
 		Database\primary_category_save( $post_id, $primary_category );
+		update_taxonomies( $post_id, $primary_category );
+	}
+}
+
+/**
+ * Update taxnomies.
+ *
+ * @param int $post_id The post ID.
+ * @param int $primary_category The post $primary category ID.
+ * @return void.
+ */
+function update_taxonomies( $post_id, $primary_category ) : void {
+	$taxonomies = wp_get_object_terms( $post_id, 'category' );
+	$term = get_term( $primary_category );
+	if ( ! in_array( $term, $taxonomies ) ) {
+		wp_set_post_terms( $post_id, $term->term_id, $term->taxonomy, true );
 	}
 }

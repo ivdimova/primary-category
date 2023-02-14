@@ -25,7 +25,8 @@ function primary_category_db() : void {
 		post_id mediumint(9) NOT NULL,
 		term_id mediumint(9) NOT NULL,
 		time_created datetime DEFAULT '0000-00-00 00:00:00' NOT NULL,
-		PRIMARY KEY  (id)
+		PRIMARY KEY  (id),
+		UNIQUE (post_id)
 	) $charset_collate;";
 
 	require_once ABSPATH . 'wp-admin/includes/upgrade.php';
@@ -46,14 +47,9 @@ function primary_category_db() : void {
 function primary_category_save( $post_id, $term_id ) : void {
 	global $wpdb;
 	$table_name = $wpdb->prefix . TABLE_NAME;
-	$wpdb->replace(
-		$table_name,
-		[
-			'post_id' => $post_id,
-			'term_id' => $term_id,
-			'time_created' => current_time( 'mysql' ),
-		]
-	);
+	$sql = 'INSERT INTO wp_primary_category ( post_id, term_id, time_created ) VALUES ( %d, %d, %s ) ON DUPLICATE KEY UPDATE term_id = %d, time_created = %s';
+	$sql = $wpdb->prepare( $sql, $post_id, $term_id, current_time( 'mysql' ), $term_id, current_time( 'mysql' ) );
+	$wpdb->query( $sql );
 }
 
 /**
