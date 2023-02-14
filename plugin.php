@@ -5,7 +5,7 @@
  * Author: ivdimova
  * Description: Adds option to select primary category.
  * Author URI: http://it.ivdimova.com/
- * Version: 2.0
+ * Version: 1.0
  * License: GPL2
  */
 
