@@ -31,11 +31,13 @@ function pc_shortcode_init() : void {
  * @return string $output The shortcode content.
  */
 function primary_category_shortcode() {
-	$term_id = Database\primary_category_get( get_the_ID() );
+	$term_id = intval( Database\primary_category_get( get_the_ID() ) );
+	
 	if ( empty( $term_id ) || ! is_int( $term_id ) ) {
 		return;
 	}
 	$pc_term = get_term_by( 'term_id', $term_id, 'category' );
+
 	$output = '<span>' . esc_html__( 'Primary Category - ', 'primary-category' ) . $pc_term->name . '</span>';
 	return $output;
 }

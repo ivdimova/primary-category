@@ -1,11 +1,20 @@
 {
-	"name": "primary-category-permalinks",
-	"version": "0.0.1",
-	"description": "Adds a Primary Category selector to Posts.",
-	"dependencies": {
-		"@wordpress/scripts": "^18.0.1"
-	},
+	"name": "primary-category",
+	"version": "0.1.0",
+	"description": "Display Primary category",
+	"author": "Ivelina Dimova",
+	"license": "GPL-2.0-or-later",
+	"main": "build/index.js",
 	"scripts": {
-		"build": "wp-scripts build src/*.js --output-path=build/"
+		"build": "wp-scripts build --webpack-copy-php",
+		"format": "wp-scripts format",
+		"lint:css": "wp-scripts lint-style",
+		"lint:js": "wp-scripts lint-js",
+		"packages-update": "wp-scripts packages-update",
+		"plugin-zip": "wp-scripts plugin-zip",
+		"start": "wp-scripts start --webpack-copy-php"
+	},
+	"devDependencies": {
+		"@wordpress/scripts": "^25.4.0"
 	}
 }
